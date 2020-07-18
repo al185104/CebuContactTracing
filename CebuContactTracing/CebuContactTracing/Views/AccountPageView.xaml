@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CebuContactTracing.Views.AccountPageView"
+             xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+             xmlns:zxcm="clr-namespace:ZXing.Common;assembly=zxing.portable"
+             xmlns:viewModel="clr-namespace:CebuContactTracing.ViewModels.Base;assembly=CebuContactTracing"
+             viewModel:ViewModelLocator.AutoWireViewModel="True"
+             Title="Account">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontFamily" Value="{StaticResource SecondaryFont}"/>
+            </Style>
+            <Style TargetType="StackLayout">
+                <Setter Property="Spacing" Value="0"/>
+                <Setter Property="BackgroundColor" Value="White"/>
+                <Setter Property="Padding" Value="20"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="Cebu" FontSize="Title"/>
+            <Label Text="Contact Tracing" FontSize="Title"/>
+            <Label Text="Bulacao" FontSize="Small"/>
+
+            <Label Text="Welcome, Eric!" FontSize="Title"/>
+            <StackLayout 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    Margin="0">
+                <zxing:ZXingBarcodeImageView
+                        BarcodeFormat="QR_CODE"
+                        BarcodeValue="{Binding BarcodeValue}"
+                        HorizontalOptions="FillAndExpand"
+                        VerticalOptions="FillAndExpand">
+                <zxing:ZXingBarcodeImageView.BarcodeOptions>
+                    <zxcm:EncodingOptions Width="600" Height="600"/>
+                </zxing:ZXingBarcodeImageView.BarcodeOptions>
+            </zxing:ZXingBarcodeImageView>
+            </StackLayout>
+            <Grid VerticalOptions="End" Padding="20">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style TargetType="Label">
+                            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="Account Details" FontSize="Title" HorizontalOptions="Center" />
+                <Label Grid.Row="1" Text="Last Name: " HorizontalTextAlignment="End"/>
+                <Label Grid.Row="2" Text="First Name: " HorizontalTextAlignment="End"/>
+                <Label Grid.Row="3" Text="Birthdate: " HorizontalTextAlignment="End"/>
+                <Label Grid.Row="4" Text="Gender: " HorizontalTextAlignment="End"/>
+                <Label Grid.Row="5" Text="Contact Num: " HorizontalTextAlignment="End"/>
+                <Label Grid.Row="6" Text="Brgy: " HorizontalTextAlignment="End"/>
+                <Label Grid.Row="7" Text="Address: " HorizontalTextAlignment="End"/>
+
+                <Label Grid.Row="1" Grid.Column="1" Text="Llamido" HorizontalTextAlignment="Start"/>
+                <Label Grid.Row="2" Grid.Column="1" Text="Eric" HorizontalTextAlignment="Start"/>
+                <Label Grid.Row="3" Grid.Column="1" Text="August 21, 1968" HorizontalTextAlignment="Start"/>
+                <Label Grid.Row="4" Grid.Column="1" Text="Male" HorizontalTextAlignment="Start"/>
+                <Label Grid.Row="5" Grid.Column="1" Text="932 323 4487" HorizontalTextAlignment="Start"/>
+                <Label Grid.Row="6" Grid.Column="1" Text="Bulacao" HorizontalTextAlignment="Start"/>
+                <Label Grid.Row="7" Grid.Column="1" Text="81-51 Lower San Roque" HorizontalTextAlignment="Start"/>
+            </Grid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

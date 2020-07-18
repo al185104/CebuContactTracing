@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CebuContactTracing.Views.Popup.CommonPopUpView"
+             BackgroundColor="#80000000"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+             xmlns:viewModel="clr-namespace:CebuContactTracing.ViewModels.Base;assembly=CebuContactTracing"
+             viewModel:ViewModelLocator.AutoWireViewModel="True">
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalOptions"  Value="CenterAndExpand"/>
+                <Setter Property="FontSize" Value="Body"/>
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+                <Style.Triggers>
+                    <Trigger TargetType="Label" Property="Text" Value="">
+                        <Setter Property="IsVisible" Value="False" />
+                    </Trigger>
+                    <Trigger TargetType="Label" Property="Text" Value="{x:Null}">
+                        <Setter Property="IsVisible" Value="False" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource Color2}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+                <Setter Property="FontSize" Value="Medium"/>
+                <Setter Property="VerticalOptions" Value="EndAndExpand"/>
+                <Setter Property="Margin" Value="0,10"/>
+            </Style>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+    <pages:PopupPage.Content>
+        <Grid>
+            <lottie:AnimationView 
+                Animation="{Binding Celebration}" 
+                AutoPlay="True" Loop="False"
+                InputTransparent="True"
+                Speed="2"
+                VerticalOptions="FillAndExpand"
+                HorizontalOptions="Fill"/>
+            <StackLayout
+                Margin="20"
+                BackgroundColor="White"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Spacing="0">
+                <StackLayout Padding="60,0,60,20" Spacing="0">
+                    <StackLayout Spacing="20">
+                        <lottie:AnimationView 
+                        Animation="{Binding Animation}" 
+                        AutoPlay="True" Loop="False"
+                        VerticalOptions="FillAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        HeightRequest="80"
+                        WidthRequest="80"
+                        Margin="0,0,10,0"/>
+                        <Label Text="{Binding Popup.Title}" FontSize="Title" TextColor="{StaticResource Color2}" Margin="0,-10,0,0"/>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label Text="{Binding Popup.Head}"/>
+                        <Label Text="{Binding Popup.Body}"/>
+                        <Label Text="{Binding Popup.Feet}"/>
+                    </StackLayout>
+                    <Button IsVisible="{Binding IsOkVisible}" Text="{Binding Popup.OKButtonLabel}" CornerRadius="25" Command="{Binding OKCommand}"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+    </pages:PopupPage.Content>
+</pages:PopupPage>

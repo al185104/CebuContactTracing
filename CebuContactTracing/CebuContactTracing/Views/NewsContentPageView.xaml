@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="CebuContactTracing.Views.NewsContentPageView"
+             xmlns:material="clr-namespace:CebuContactTracing.Helpers"
+             xmlns:viewModel="clr-namespace:CebuContactTracing.ViewModels.Base;assembly=CebuContactTracing"
+             viewModel:ViewModelLocator.AutoWireViewModel="True"
+             Title="Content">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFill"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource Color1}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="40"/>
+                <Setter Property="Padding" Value="80,0"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+                <Setter Property="TextColor" Value="{StaticResource Color2}"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                <Image Source="{Binding News.urlToImage}"/>
+                <StackLayout Padding="10">
+                    <Label Text="{Binding News.title}" FontSize="Title"/>
+                    <Label Text="{Binding News.publishedAt}" FontSize="Caption"/>
+                    <Label Text="{Binding News.author, StringFormat='Author: {0}'}" FontSize="Caption"/>
+                    <Label Text="{Binding News.content}" FontSize="Body"/>
+                    <Label Text="{Binding News.siteName}"/>
+                    <Button Text="Go to source" Command="{Binding GotoSourceCommand}"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

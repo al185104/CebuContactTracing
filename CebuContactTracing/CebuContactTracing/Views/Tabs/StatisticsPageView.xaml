@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:CebuContactTracing.ViewModels.Base;assembly=CebuContactTracing"
+             viewModel:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:microchart="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             xmlns:material="clr-namespace:CebuContactTracing.Helpers"
+             xmlns:yummy="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             mc:Ignorable="d"
+             x:Class="CebuContactTracing.Views.Tabs.StatisticsPageView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="microchart:ChartView">
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+            <Style TargetType="StackLayout">
+                <Setter Property="Margin" Value="5"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Spacing" Value="0"/>
+            </Style>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont-Bold}"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="HorizontalOptions" Value="Start"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="FontSize" Value="Title"/>
+                <Setter Property="FontFamily" Value="{StaticResource MaterialIcons}"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="yummy:PancakeView">
+                <Setter Property="Margin" Value="2"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <ScrollView>
+                <StackLayout>
+                    <Label Text="Central Visayas Cases" TextColor="{StaticResource Color2}" Margin="20, 0"/>
+                    <yummy:PancakeView BackgroundGradientStartPoint="0,0" BackgroundGradientEndPoint="0,1">
+                        <yummy:PancakeView.BackgroundGradientStops>
+                            <yummy:GradientStopCollection>
+                                <yummy:GradientStop Color="#f0bbd5" Offset="0" />
+                                <yummy:GradientStop Color="#CE7DA5" Offset="1" />
+                            </yummy:GradientStopCollection>
+                        </yummy:PancakeView.BackgroundGradientStops>
+                        <StackLayout>
+                            <Label Text="Confirmed" TextColor="White"/>
+                            <Label Text="{Binding StatisticsModel.CasesCount, StringFormat='{0:n0}'}" TextColor="White"/>
+                        </StackLayout>
+                    </yummy:PancakeView>
+                    <yummy:PancakeView BackgroundGradientStartPoint="0,0" BackgroundGradientEndPoint="0,1">
+                        <yummy:PancakeView.BackgroundGradientStops>
+                            <yummy:GradientStopCollection>
+                                <yummy:GradientStop Color="#FFD1BA" Offset="0" />
+                                <yummy:GradientStop Color="#b8907d" Offset="1" />
+                            </yummy:GradientStopCollection>
+                        </yummy:PancakeView.BackgroundGradientStops>
+                        <StackLayout>
+                            <Label Text="Recovered" TextColor="White"/>
+                            <Label Text="{Binding StatisticsModel.RecoveredCount, StringFormat='{0:n0}'}" TextColor="White"/>
+                        </StackLayout>
+                    </yummy:PancakeView>
+                    <yummy:PancakeView BackgroundGradientStartPoint="0,0" BackgroundGradientEndPoint="0,1">
+                        <yummy:PancakeView.BackgroundGradientStops>
+                            <yummy:GradientStopCollection>
+                                <yummy:GradientStop Color="#836896" Offset="0" />
+                                <yummy:GradientStop Color="#493657" Offset="1" />
+                            </yummy:GradientStopCollection>
+                        </yummy:PancakeView.BackgroundGradientStops>
+                        <StackLayout>
+                            <Label Text="Diseased" TextColor="White"/>
+                            <Label Text="{Binding StatisticsModel.DeceasedCount, StringFormat='{0:n0}'}" TextColor="White"/>
+                        </StackLayout>
+                    </yummy:PancakeView>
+                    <Label Text="Weekly PH Covid Case Update" Margin="20,20,20,0" TextColor="{StaticResource Color2}"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
+                        <Button Text="{x:Static material:IconFont.AccountMultipleCheck}" BackgroundColor="#CE7DA5" Command="{Binding ConfirmedCommand}"/>
+                        <Button Text="{x:Static material:IconFont.HeartPlus}" BackgroundColor="#FFD1BA" Command="{Binding RecoveredCommand}"/>
+                        <Button Text="{x:Static material:IconFont.SkullCrossbones}" BackgroundColor="#493657" Command="{Binding DiseasedCommand}"/>
+                        <Label Text="{Binding ChartLabel}" HorizontalOptions="EndAndExpand" VerticalOptions="Center" HorizontalTextAlignment="End" TextColor="{StaticResource Color2}"/>
+                    </StackLayout>
+                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HeightRequest="300">
+                        <microchart:ChartView Chart="{Binding DailyUpdateChart}"/>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            <ActivityIndicator
+                Color="#191F3A"
+                IsRunning="{Binding IsBusy}"  
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

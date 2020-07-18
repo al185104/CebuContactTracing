@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:viewModel="clr-namespace:CebuContactTracing.ViewModels.Base;assembly=CebuContactTracing"
+             xmlns:behaviors="clr-namespace:CebuContactTracing.Behaviors"
+             xmlns:converters="clr-namespace:CebuContactTracing.Converters"
+             viewModel:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:lottie="clr-namespace:Lottie.Forms;assembly=Lottie.Forms"
+             mc:Ignorable="d"
+             x:Class="CebuContactTracing.Views.Tabs.HomePageView">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+            <Style TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="FontFamily" Value="{StaticResource SecondaryFont}"/>
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+            <Style TargetType="Image">
+                <Setter Property="Aspect" Value="AspectFill"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="EndAndExpand"/>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource Color1}"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+                <Setter Property="VerticalOptions" Value="Start"/>
+                <Setter Property="FontSize" Value="Title"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="40"/>
+                <Setter Property="WidthRequest" Value="200"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="FontFamily" Value="{StaticResource PrimaryFont}"/>
+                <Setter Property="FontSize" Value="Large"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="Keyboard" Value="Default"/>
+                <Setter Property="Margin" Value="60,0"/>
+            </Style>
+            <Style TargetType="StackLayout">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="Center"/>
+                <Setter Property="Spacing" Value="0"/>
+                <Setter Property="BackgroundColor" Value="Transparent"/>
+                <Setter Property="Padding" Value="30,0"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="6" Source="social_distancing.png"/>
+                <lottie:AnimationView 
+                    Grid.Row="0"
+                    Grid.RowSpan="7"
+                    Animation="birds.json" 
+                    AutoPlay="True" Loop="True"
+                    InputTransparent="True"
+                    VerticalOptions="FillAndExpand"/>
+                <Label Grid.Row="0" Text="CEBU" FontSize="50" FontFamily="{StaticResource PrimaryFont-Bold}" Margin="0,20,0,0"/>
+                <Label Grid.Row="1" Text="contact tracing" FontSize="Title" FontFamily="{StaticResource PrimaryFont}" Margin="0,-20,0,0"/>
+                <Label Grid.Row="2" Text="Bulacao" FontSize="Small" FontFamily="{StaticResource PrimaryFont-Bold}"/>
+
+                <StackLayout Grid.Row="3">
+                    <Entry Placeholder="Username" Text="{Binding Username.Value, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <behaviors:EventToCommandBehavior
+							EventName="TextChanged"
+							Command="{Binding ValidateUserNameCommand}" />
+                        </Entry.Behaviors>
+                        <Entry.Triggers>
+                            <DataTrigger 
+							TargetType="Entry"
+							Binding="{Binding Username.IsValid}"
+							Value="False">
+                                <Setter Property="behaviors:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label Text="{Binding Username.Errors, Converter={StaticResource FirstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}"/>
+                </StackLayout>
+
+                <StackLayout Grid.Row="4">
+                    <Entry Placeholder="Password" IsPassword="True" Text="{Binding Password.Value, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <behaviors:EventToCommandBehavior
+							EventName="TextChanged"
+							Command="{Binding ValidatePasswordCommand}" />
+                        </Entry.Behaviors>
+                        <Entry.Triggers>
+                            <DataTrigger 
+							TargetType="Entry"
+							Binding="{Binding Password.IsValid}"
+							Value="False">
+                                <Setter Property="behaviors:LineColorBehavior.LineColor" Value="{StaticResource ErrorColor}" />
+                            </DataTrigger>
+                        </Entry.Triggers>
+                    </Entry>
+                    <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}" Style="{StaticResource ValidationErrorLabelStyle}"/>
+                </StackLayout>
+
+                <Button Grid.Row="5" Text="Sign In" Command="{Binding SignInCommand}"/>
+                <Button Grid.Row="6" Text="Register" Command="{Binding RegistrationCommand}" BackgroundColor="{StaticResource Color2}"/>
+            </Grid>
+            <ActivityIndicator
+                Color="White"
+                IsRunning="{Binding IsBusy}"  
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand">
+                <ActivityIndicator.WidthRequest>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS, Android" Value="100" />
+                        <On Platform="UWP, WinRT, WinPhone" Value="400" />
+                    </OnPlatform>
+                </ActivityIndicator.WidthRequest>
+            </ActivityIndicator>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
